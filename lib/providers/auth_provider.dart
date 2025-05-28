@@ -43,7 +43,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   // Check if user is logged in from storage
   Future<void> _checkLoginStatus() async {
     state = state.copyWith(isLoading: true);
-    
+
     try {
       final isLoggedIn = _databaseManager.getLoginStatus();
       if (isLoggedIn) {
@@ -60,7 +60,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   // Login user (simple validation since no backend)
   Future<bool> login(String email, String password) async {
     state = state.copyWith(isLoading: true);
-    
+
     try {
       // Simple validation - in a real app, you'd call an API
       if (email.isNotEmpty && password.length >= 6) {
@@ -69,11 +69,11 @@ class AuthNotifier extends StateNotifier<AuthState> {
           email: email,
           name: _getNameFromEmail(email),
         );
-        
+
         // Save to storage
         await _databaseManager.saveUser(user);
         await _databaseManager.setLoginStatus(true);
-        
+
         // Update state
         state = AuthState(isLoggedIn: true, user: user, isLoading: false);
         return true;
@@ -90,7 +90,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   // Logout user
   Future<void> logout() async {
     state = state.copyWith(isLoading: true);
-    
+
     try {
       await _databaseManager.removeCurrentUser();
       await _databaseManager.setLoginStatus(false);
@@ -104,7 +104,7 @@ class AuthNotifier extends StateNotifier<AuthState> {
   String _getNameFromEmail(String email) {
     final username = email.split('@')[0];
     // Capitalize first letter
-    return username.isNotEmpty 
+    return username.isNotEmpty
         ? username[0].toUpperCase() + username.substring(1)
         : 'User';
   }
@@ -113,4 +113,4 @@ class AuthNotifier extends StateNotifier<AuthState> {
 // Provider for authentication state
 final authProvider = StateNotifierProvider<AuthNotifier, AuthState>((ref) {
   return AuthNotifier();
-}); 
+});

@@ -12,7 +12,8 @@ import 'package:news_buzz/main.dart';
 
 void main() {
   group('News Buzz App Tests', () {
-    testWidgets('App should start with splash screen', (WidgetTester tester) async {
+    testWidgets('App should start with splash screen',
+        (WidgetTester tester) async {
       // Build our app and trigger a frame.
       await tester.pumpWidget(const MyApp());
 
@@ -22,7 +23,8 @@ void main() {
       expect(find.byType(CircularProgressIndicator), findsOneWidget);
     });
 
-    testWidgets('App should show login screen after splash', (WidgetTester tester) async {
+    testWidgets('App should show login screen after splash',
+        (WidgetTester tester) async {
       // Build our app and trigger a frame.
       await tester.pumpWidget(const MyApp());
 
@@ -32,11 +34,13 @@ void main() {
       // Verify that login screen elements are present
       expect(find.text('Welcome to News Buzz'), findsOneWidget);
       expect(find.text('Sign in to continue'), findsOneWidget);
-      expect(find.byType(TextFormField), findsNWidgets(2)); // Email and password fields
+      expect(find.byType(TextFormField),
+          findsNWidgets(2)); // Email and password fields
       expect(find.text('Login'), findsOneWidget);
     });
 
-    testWidgets('Login form should validate empty fields', (WidgetTester tester) async {
+    testWidgets('Login form should validate empty fields',
+        (WidgetTester tester) async {
       // Build our app and trigger a frame.
       await tester.pumpWidget(const MyApp());
 

@@ -5,8 +5,6 @@ import 'news_feed_screen.dart';
 import 'bookmarks_screen.dart';
 import 'login_screen.dart';
 
-// This is the main screen after login
-// It has a tab bar to switch between news and bookmarks
 class HomeScreen extends ConsumerStatefulWidget {
   const HomeScreen({super.key});
 
@@ -14,29 +12,24 @@ class HomeScreen extends ConsumerStatefulWidget {
   ConsumerState<HomeScreen> createState() => _HomeScreenState();
 }
 
-class _HomeScreenState extends ConsumerState<HomeScreen> 
+class _HomeScreenState extends ConsumerState<HomeScreen>
     with SingleTickerProviderStateMixin {
-  
-  // Tab controller for managing tabs
   late TabController _tabController;
-  
+
   @override
   void initState() {
     super.initState();
-    // Initialize tab controller with 2 tabs
+
     _tabController = TabController(length: 2, vsync: this);
   }
 
   @override
   void dispose() {
-    // Clean up tab controller
     _tabController.dispose();
     super.dispose();
   }
 
-  // Handle logout
   Future<void> _handleLogout() async {
-    // Show confirmation dialog
     final shouldLogout = await showDialog<bool>(
       context: context,
       builder: (context) => AlertDialog(
@@ -56,12 +49,10 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
     );
 
     if (shouldLogout == true) {
-      // Logout user
       final authNotifier = ref.read(authProvider.notifier);
       await authNotifier.logout();
-      
+
       if (mounted) {
-        // Navigate to login screen
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const LoginScreen()),
         );
@@ -71,7 +62,6 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
 
   @override
   Widget build(BuildContext context) {
-    // Watch auth state to get user info
     final authState = ref.watch(authProvider);
     final user = authState.user;
 
@@ -79,12 +69,11 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       appBar: AppBar(
         title: const Text('News Buzz'),
         actions: [
-          // User profile and logout
           PopupMenuButton<String>(
             icon: CircleAvatar(
               backgroundColor: Colors.white,
               child: Text(
-                user?.name.isNotEmpty == true 
+                user?.name.isNotEmpty == true
                     ? user!.name[0].toUpperCase()
                     : 'U',
                 style: TextStyle(
@@ -155,13 +144,12 @@ class _HomeScreenState extends ConsumerState<HomeScreen>
       body: TabBarView(
         controller: _tabController,
         children: const [
-          // News feed tab
           NewsFeedScreen(),
-          
+
           // Bookmarks tab
           BookmarksScreen(),
         ],
       ),
     );
   }
-} 
+}

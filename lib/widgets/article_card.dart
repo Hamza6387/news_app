@@ -33,7 +33,7 @@ class ArticleCard extends ConsumerWidget {
           children: [
             // Article image
             _buildArticleImage(),
-            
+
             // Article content
             Padding(
               padding: const EdgeInsets.all(16),
@@ -51,9 +51,9 @@ class ArticleCard extends ConsumerWidget {
                     maxLines: 2,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  
+
                   const SizedBox(height: 8),
-                  
+
                   // Description
                   Text(
                     article.description,
@@ -65,9 +65,9 @@ class ArticleCard extends ConsumerWidget {
                     maxLines: 3,
                     overflow: TextOverflow.ellipsis,
                   ),
-                  
+
                   const SizedBox(height: 12),
-                  
+
                   // Source and date row
                   Row(
                     children: [
@@ -95,9 +95,9 @@ class ArticleCard extends ConsumerWidget {
                           ],
                         ),
                       ),
-                      
+
                       const SizedBox(width: 8),
-                      
+
                       // Date
                       Text(
                         DateFormatter.formatPublishedDate(article.publishedAt),
@@ -108,9 +108,9 @@ class ArticleCard extends ConsumerWidget {
                       ),
                     ],
                   ),
-                  
+
                   const SizedBox(height: 12),
-                  
+
                   // Action buttons
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -124,7 +124,7 @@ class ArticleCard extends ConsumerWidget {
                           padding: const EdgeInsets.symmetric(horizontal: 8),
                         ),
                       ),
-                      
+
                       // Bookmark button
                       Row(
                         mainAxisSize: MainAxisSize.min,
@@ -136,17 +136,23 @@ class ArticleCard extends ConsumerWidget {
                               label: const Text('Remove'),
                               style: TextButton.styleFrom(
                                 foregroundColor: Colors.red,
-                                padding: const EdgeInsets.symmetric(horizontal: 8),
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 8),
                               ),
                             )
                           else
                             IconButton(
                               onPressed: () => _toggleBookmark(context, ref),
                               icon: Icon(
-                                isBookmarked ? Icons.bookmark : Icons.bookmark_border,
-                                color: isBookmarked ? Colors.amber : Colors.grey,
+                                isBookmarked
+                                    ? Icons.bookmark
+                                    : Icons.bookmark_border,
+                                color:
+                                    isBookmarked ? Colors.amber : Colors.grey,
                               ),
-                              tooltip: isBookmarked ? 'Remove bookmark' : 'Add bookmark',
+                              tooltip: isBookmarked
+                                  ? 'Remove bookmark'
+                                  : 'Add bookmark',
                             ),
                         ],
                       ),
@@ -196,7 +202,7 @@ class ArticleCard extends ConsumerWidget {
         fit: BoxFit.cover,
         loadingBuilder: (context, child, loadingProgress) {
           if (loadingProgress == null) return child;
-          
+
           return Container(
             height: 200,
             color: Colors.grey[200],
@@ -246,16 +252,14 @@ class ArticleCard extends ConsumerWidget {
   Future<void> _toggleBookmark(BuildContext context, WidgetRef ref) async {
     final bookmarksNotifier = ref.read(bookmarksProvider.notifier);
     await bookmarksNotifier.toggleBookmark(article);
-    
+
     // Show feedback to user
     final isBookmarked = bookmarksNotifier.isBookmarked(article);
     if (context.mounted) {
       ScaffoldMessenger.of(context).showSnackBar(
         SnackBar(
           content: Text(
-            isBookmarked 
-                ? 'Article bookmarked!' 
-                : 'Bookmark removed!',
+            isBookmarked ? 'Article bookmarked!' : 'Bookmark removed!',
           ),
           backgroundColor: isBookmarked ? Colors.green : Colors.orange,
           duration: const Duration(seconds: 2),
@@ -288,7 +292,7 @@ class ArticleCard extends ConsumerWidget {
     if (shouldRemove == true) {
       final bookmarksNotifier = ref.read(bookmarksProvider.notifier);
       await bookmarksNotifier.removeBookmark(article);
-      
+
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -299,4 +303,4 @@ class ArticleCard extends ConsumerWidget {
       }
     }
   }
-} 
+}

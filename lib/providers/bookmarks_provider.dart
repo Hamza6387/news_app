@@ -43,7 +43,7 @@ class BookmarksNotifier extends StateNotifier<BookmarksState> {
   // Load all bookmarks from storage
   Future<void> loadBookmarks() async {
     state = state.copyWith(isLoading: true, error: null);
-    
+
     try {
       final bookmarks = _databaseManager.getAllBookmarks();
       state = state.copyWith(
@@ -63,7 +63,7 @@ class BookmarksNotifier extends StateNotifier<BookmarksState> {
   Future<void> addBookmark(Article article) async {
     try {
       await _databaseManager.saveBookmark(article);
-      
+
       // Update state by adding the article if it's not already there
       final currentBookmarks = List<Article>.from(state.bookmarks);
       if (!currentBookmarks.any((bookmark) => bookmark.url == article.url)) {
@@ -79,7 +79,7 @@ class BookmarksNotifier extends StateNotifier<BookmarksState> {
   Future<void> removeBookmark(Article article) async {
     try {
       await _databaseManager.removeBookmark(article.url);
-      
+
       // Update state by removing the article
       final currentBookmarks = List<Article>.from(state.bookmarks);
       currentBookmarks.removeWhere((bookmark) => bookmark.url == article.url);
@@ -92,7 +92,7 @@ class BookmarksNotifier extends StateNotifier<BookmarksState> {
   // Toggle bookmark status
   Future<void> toggleBookmark(Article article) async {
     final isBookmarked = _databaseManager.isArticleBookmarked(article.url);
-    
+
     if (isBookmarked) {
       await removeBookmark(article);
     } else {
@@ -117,6 +117,7 @@ class BookmarksNotifier extends StateNotifier<BookmarksState> {
 }
 
 // Provider for bookmarks state
-final bookmarksProvider = StateNotifierProvider<BookmarksNotifier, BookmarksState>((ref) {
+final bookmarksProvider =
+    StateNotifierProvider<BookmarksNotifier, BookmarksState>((ref) {
   return BookmarksNotifier();
-}); 
+});

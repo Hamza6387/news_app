@@ -7,10 +7,10 @@ import '../models/user.dart';
 class HiveDatabaseManager {
   // Singleton instance
   static HiveDatabaseManager? _instance;
-  
+
   // Private constructor
   HiveDatabaseManager._();
-  
+
   // Get singleton instance
   static HiveDatabaseManager get instance {
     _instance ??= HiveDatabaseManager._();
@@ -21,7 +21,7 @@ class HiveDatabaseManager {
   static const String _usersBoxName = 'users';
   static const String _bookmarksBoxName = 'bookmarks';
   static const String _settingsBoxName = 'settings';
-  
+
   // Keys for storing data
   static const String _currentUserKey = 'current_user';
   static const String _isLoggedInKey = 'is_logged_in';
@@ -36,7 +36,7 @@ class HiveDatabaseManager {
     try {
       // Initialize Hive
       await Hive.initFlutter();
-      
+
       // Register adapters
       if (!Hive.isAdapterRegistered(0)) {
         Hive.registerAdapter(ArticleAdapter());
@@ -44,7 +44,7 @@ class HiveDatabaseManager {
       if (!Hive.isAdapterRegistered(1)) {
         Hive.registerAdapter(UserAdapter());
       }
-      
+
       // Open boxes
       _usersBox = await Hive.openBox<User>(_usersBoxName);
       _bookmarksBox = await Hive.openBox<Article>(_bookmarksBoxName);
@@ -118,4 +118,4 @@ class HiveDatabaseManager {
   Future<void> clearAllBookmarks() async {
     await bookmarksBox.clear();
   }
-} 
+}

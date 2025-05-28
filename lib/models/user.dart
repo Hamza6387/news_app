@@ -7,18 +7,16 @@ part 'user.g.dart';
 @HiveType(typeId: 1)
 class User extends HiveObject {
   @HiveField(0)
-  final String email;    // User's email address
-  
-  @HiveField(1)
-  final String name;     // User's display name
+  final String email;
 
-  // Constructor to create a new User
+  @HiveField(1)
+  final String name;
+
   User({
     required this.email,
     required this.name,
   });
 
-  // Compare two users to see if they're the same
   @override
   bool operator ==(Object other) {
     if (identical(this, other)) return true;

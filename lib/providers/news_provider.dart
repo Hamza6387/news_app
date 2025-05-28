@@ -41,7 +41,7 @@ class NewsNotifier extends StateNotifier<NewsState> {
   // Load top headlines
   Future<void> loadNews() async {
     state = state.copyWith(isLoading: true, error: null);
-    
+
     try {
       final articles = await NewsService.fetchTopHeadlines();
       state = state.copyWith(
@@ -71,7 +71,7 @@ class NewsNotifier extends StateNotifier<NewsState> {
     }
 
     state = state.copyWith(isLoading: true, error: null);
-    
+
     try {
       final articles = await NewsService.searchNews(query);
       state = state.copyWith(
@@ -91,4 +91,4 @@ class NewsNotifier extends StateNotifier<NewsState> {
 // Provider for news state
 final newsProvider = StateNotifierProvider<NewsNotifier, NewsState>((ref) {
   return NewsNotifier();
-}); 
+});

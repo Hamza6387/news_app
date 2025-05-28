@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:webview_flutter/webview_flutter.dart';
-import 'package:url_launcher/url_launcher.dart';
 import '../models/article.dart';
 import '../providers/bookmarks_provider.dart';
 
-// This screen shows the full article content in a WebView
-// It also has a bookmark button to save/remove articles
 class ArticleDetailScreen extends ConsumerStatefulWidget {
   final Article article;
 
@@ -31,7 +28,6 @@ class _ArticleDetailScreenState extends ConsumerState<ArticleDetailScreen> {
     _initializeWebView();
   }
 
-  // Initialize WebView controller
   void _initializeWebView() {
     _webViewController = WebViewController()
       ..setJavaScriptMode(JavaScriptMode.unrestricted)
@@ -57,11 +53,9 @@ class _ArticleDetailScreenState extends ConsumerState<ArticleDetailScreen> {
         ),
       );
 
-    // Load the actual article URL in WebView
     if (widget.article.url.isNotEmpty) {
       _webViewController.loadRequest(Uri.parse(widget.article.url));
     } else {
-      // If no URL available, show error state
       setState(() {
         _isLoading = false;
         _hasError = true;
@@ -69,12 +63,10 @@ class _ArticleDetailScreenState extends ConsumerState<ArticleDetailScreen> {
     }
   }
 
-  // Handle bookmark toggle
   Future<void> _toggleBookmark() async {
     final bookmarksNotifier = ref.read(bookmarksProvider.notifier);
     await bookmarksNotifier.toggleBookmark(widget.article);
 
-    // Show feedback to user
     final isBookmarked = bookmarksNotifier.isBookmarked(widget.article);
     if (mounted) {
       ScaffoldMessenger.of(context).showSnackBar(

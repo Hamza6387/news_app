@@ -4,8 +4,6 @@ import '../providers/auth_provider.dart';
 import 'login_screen.dart';
 import 'home_screen.dart';
 
-// This is the first screen users see when they open the app
-// It checks if the user is already logged in and navigates accordingly
 class SplashScreen extends ConsumerStatefulWidget {
   const SplashScreen({super.key});
 
@@ -17,29 +15,22 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
   @override
   void initState() {
     super.initState();
-    // Wait a bit to show the splash screen, then check login status
+
     _checkLoginAndNavigate();
   }
 
-  // Check if user is logged in and navigate to appropriate screen
   Future<void> _checkLoginAndNavigate() async {
-    // Wait for 2 seconds to show splash screen
     await Future.delayed(const Duration(seconds: 2));
-    
-    // Check if widget is still mounted before navigating
+
     if (!mounted) return;
-    
-    // Get the authentication state
+
     final authState = ref.read(authProvider);
-    
-    // Navigate based on login status
+
     if (authState.isLoggedIn) {
-      // User is logged in, go to home screen
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const HomeScreen()),
       );
     } else {
-      // User is not logged in, go to login screen
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const LoginScreen()),
       );
@@ -48,9 +39,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    // Listen to auth state changes
     ref.listen<AuthState>(authProvider, (previous, next) {
-      // If auth state changes while on splash screen, navigate accordingly
       if (next.isLoggedIn && !next.isLoading) {
         Navigator.of(context).pushReplacement(
           MaterialPageRoute(builder: (context) => const HomeScreen()),
@@ -68,7 +57,6 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            // App logo/icon
             Container(
               width: 120,
               height: 120,
@@ -89,10 +77,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 color: Colors.blue,
               ),
             ),
-            
             const SizedBox(height: 30),
-            
-            // App name
             const Text(
               'News Buzz',
               style: TextStyle(
@@ -101,10 +86,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 color: Colors.white,
               ),
             ),
-            
             const SizedBox(height: 10),
-            
-            // App tagline
             const Text(
               'Stay Updated with Latest News',
               style: TextStyle(
@@ -112,10 +94,7 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
                 color: Colors.white70,
               ),
             ),
-            
             const SizedBox(height: 50),
-            
-            // Loading indicator
             const CircularProgressIndicator(
               valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
             ),
@@ -124,4 +103,4 @@ class _SplashScreenState extends ConsumerState<SplashScreen> {
       ),
     );
   }
-} 
+}

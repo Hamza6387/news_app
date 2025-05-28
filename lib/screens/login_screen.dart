@@ -4,8 +4,6 @@ import '../providers/auth_provider.dart';
 import '../utils/validators.dart';
 import 'home_screen.dart';
 
-// This screen handles user login
-// It has email and password fields with validation
 class LoginScreen extends ConsumerStatefulWidget {
   const LoginScreen({super.key});
 
@@ -14,41 +12,32 @@ class LoginScreen extends ConsumerStatefulWidget {
 }
 
 class _LoginScreenState extends ConsumerState<LoginScreen> {
-  // Form key for validation
   final _formKey = GlobalKey<FormState>();
-  
-  // Controllers for text fields
+
   final _emailController = TextEditingController();
   final _passwordController = TextEditingController();
-  
-  // Password visibility toggle
+
   bool _isPasswordVisible = false;
 
   @override
   void dispose() {
-    // Clean up controllers when screen is disposed
     _emailController.dispose();
     _passwordController.dispose();
     super.dispose();
   }
 
-  // Handle login button press
   Future<void> _handleLogin() async {
-    // Validate form first
     if (!_formKey.currentState!.validate()) {
       return;
     }
 
-    // Get email and password
     final email = _emailController.text.trim();
     final password = _passwordController.text.trim();
 
-    // Try to login
     final authNotifier = ref.read(authProvider.notifier);
     final success = await authNotifier.login(email, password);
 
     if (success && mounted) {
-      // Login successful, navigate to home screen
       Navigator.of(context).pushReplacement(
         MaterialPageRoute(builder: (context) => const HomeScreen()),
       );
@@ -79,7 +68,7 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
                 const SizedBox(height: 60),
-                
+
                 // App logo and title
                 Center(
                   child: Column(
@@ -117,9 +106,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     ],
                   ),
                 ),
-                
+
                 const SizedBox(height: 50),
-                
+
                 // Email field
                 TextFormField(
                   controller: _emailController,
@@ -131,9 +120,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                   validator: Validators.validateEmail,
                 ),
-                
+
                 const SizedBox(height: 20),
-                
+
                 // Password field
                 TextFormField(
                   controller: _passwordController,
@@ -144,8 +133,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                     prefixIcon: const Icon(Icons.lock_outlined),
                     suffixIcon: IconButton(
                       icon: Icon(
-                        _isPasswordVisible 
-                            ? Icons.visibility_off 
+                        _isPasswordVisible
+                            ? Icons.visibility_off
                             : Icons.visibility,
                       ),
                       onPressed: () {
@@ -157,9 +146,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                   ),
                   validator: Validators.validatePassword,
                 ),
-                
+
                 const SizedBox(height: 30),
-                
+
                 // Login button
                 SizedBox(
                   height: 50,
@@ -171,7 +160,8 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                             height: 20,
                             child: CircularProgressIndicator(
                               strokeWidth: 2,
-                              valueColor: AlwaysStoppedAnimation<Color>(Colors.white),
+                              valueColor:
+                                  AlwaysStoppedAnimation<Color>(Colors.white),
                             ),
                           )
                         : const Text(
@@ -183,9 +173,9 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
                           ),
                   ),
                 ),
-                
+
                 const SizedBox(height: 30),
-                
+
                 // Demo credentials info
                 Container(
                   padding: const EdgeInsets.all(16),
@@ -231,4 +221,4 @@ class _LoginScreenState extends ConsumerState<LoginScreen> {
       ),
     );
   }
-} 
+}

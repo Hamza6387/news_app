@@ -4,8 +4,6 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/news_provider.dart';
 import '../widgets/article_card.dart';
 
-// This screen shows the news feed with all articles
-// It includes search functionality and pull-to-refresh
 class NewsFeedScreen extends ConsumerStatefulWidget {
   const NewsFeedScreen({super.key});
 

@@ -4,14 +4,12 @@ import 'services/hive_database_manager.dart';
 import 'screens/splash_screen.dart';
 
 void main() async {
-
   WidgetsFlutterBinding.ensureInitialized();
 
   final hiveDatabaseManager = HiveDatabaseManager.instance;
   await hiveDatabaseManager.initialize();
-  
-  runApp(
 
+  runApp(
     const ProviderScope(
       child: MyApp(),
     ),
@@ -27,7 +25,6 @@ class MyApp extends StatelessWidget {
       title: 'News Buzz',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        // Modern teal/green theme for the app - more vibrant than basic blue
         primarySwatch: Colors.teal,
         primaryColor: Colors.teal[700],
         colorScheme: ColorScheme.fromSeed(
@@ -58,18 +55,11 @@ class MyApp extends StatelessWidget {
             borderSide: BorderSide(color: Colors.teal[700]!),
           ),
         ),
-        // cardTheme: CardTheme(
-        //   elevation: 2,
-        //   shape: RoundedRectangleBorder(
-        //     borderRadius: BorderRadius.circular(12),
-        //   ),
-        // ),
         floatingActionButtonTheme: FloatingActionButtonThemeData(
           backgroundColor: Colors.teal[700],
           foregroundColor: Colors.white,
         ),
       ),
-      // Start with splash screen to check login status
       home: const SplashScreen(),
     );
   }

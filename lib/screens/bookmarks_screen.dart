@@ -3,19 +3,15 @@ import 'package:flutter_riverpod/flutter_riverpod.dart';
 import '../providers/bookmarks_provider.dart';
 import '../widgets/article_card.dart';
 
-// This screen shows all bookmarked articles
-// Users can view and remove bookmarks here
 class BookmarksScreen extends ConsumerWidget {
   const BookmarksScreen({super.key});
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
-    // Watch bookmarks state
     final bookmarksState = ref.watch(bookmarksProvider);
 
     return RefreshIndicator(
       onRefresh: () async {
-        // Refresh bookmarks
         final bookmarksNotifier = ref.read(bookmarksProvider.notifier);
         await bookmarksNotifier.loadBookmarks();
       },
@@ -25,8 +21,8 @@ class BookmarksScreen extends ConsumerWidget {
 
   // Build the bookmarks list based on state
   Widget _buildBookmarksList(
-    BuildContext context, 
-    WidgetRef ref, 
+    BuildContext context,
+    WidgetRef ref,
     BookmarksState bookmarksState,
   ) {
     if (bookmarksState.isLoading && bookmarksState.bookmarks.isEmpty) {
@@ -138,7 +134,7 @@ class BookmarksScreen extends ConsumerWidget {
               ],
             ),
           ),
-        
+
         // Bookmarks list
         Expanded(
           child: ListView.builder(
@@ -186,7 +182,7 @@ class BookmarksScreen extends ConsumerWidget {
     if (shouldClear == true) {
       final bookmarksNotifier = ref.read(bookmarksProvider.notifier);
       await bookmarksNotifier.clearAllBookmarks();
-      
+
       if (context.mounted) {
         ScaffoldMessenger.of(context).showSnackBar(
           const SnackBar(
@@ -197,4 +193,4 @@ class BookmarksScreen extends ConsumerWidget {
       }
     }
   }
-} 
+}
